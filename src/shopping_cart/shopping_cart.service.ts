@@ -30,6 +30,7 @@ export class ShoppingCartService {
         ...item,
         quantity: foundCartItem.quantity,
         totalPrice: foundCartItem.quantity * item.price,
+        promotionPrice: null,
       };
     });
 

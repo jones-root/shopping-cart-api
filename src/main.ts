@@ -11,12 +11,14 @@ const port = Number(process.env.PORT) || 3000;
 const app = createServer();
 
 // TODO Refactor using typedi or fastify-decorators for specialized dependency injection handling
-// Promotion
-const promotionRepository = new PromotionRepository();
-const promotionService = new PromotionService(promotionRepository);
 
-// Shopping Cart
 const shoppingCartRepository = new ShoppingCartRepository();
+const promotionRepository = new PromotionRepository();
+const promotionService = new PromotionService(
+  promotionRepository,
+  shoppingCartRepository
+);
+
 const shoppingCartService = new ShoppingCartService(
   shoppingCartRepository,
   promotionService

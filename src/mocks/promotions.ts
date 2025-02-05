@@ -8,4 +8,10 @@ export const mockedPromotions: IPromotion[] = [
     forThePriceOf: 2,
     description: "Buy 3 Google Homes for the price of 2",
   },
+  {
+    type: PromotionTypeEnum.EACH_SALE_OF_X_COMES_WITH_AN_Y,
+    sku: "43N23P",
+    freeSku: "344222",
+    description: "Each sale of a MacBook Pro comes with a free Raspberry Pi",
+  },
 ];

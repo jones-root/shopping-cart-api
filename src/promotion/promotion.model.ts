@@ -7,8 +7,14 @@ export enum PromotionTypeEnum {
 }
 
 export interface IPromotionFunction {
-  create: (...args: any) => (item: IShoppingCartItem) => {
+  create: (...args: any) => (
+    item: IShoppingCartItem,
+    resultingCart: IShoppingCartItem[]
+  ) => {
     didApply: boolean;
+
+    /** Used to sync a raw constructed items with the database */
+    needsSync?: string[];
   };
 }
 
@@ -17,5 +23,6 @@ export interface IPromotion {
   sku: string;
   targetQuantity?: number;
   forThePriceOf?: number;
+  freeSku?: string;
   description?: string;
 }
