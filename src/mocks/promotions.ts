@@ -14,4 +14,12 @@ export const mockedPromotions: IPromotion[] = [
     freeSku: "344222",
     description: "Each sale of a MacBook Pro comes with a free Raspberry Pi",
   },
+  {
+    type: PromotionTypeEnum.BUY_MORE_THAN_X_TO_GET_A_DISCOUNT_ON_ALL,
+    sku: "A304SD",
+    minQuantity: 3,
+    discount: 10,
+    description:
+      "Buying 3 Alexa Speakers or more will have a 10% discount on all Alexa speakers",
+  },
 ];

@@ -24,5 +24,7 @@ export interface IPromotion {
   targetQuantity?: number;
   forThePriceOf?: number;
   freeSku?: string;
+  discount?: number;
+  minQuantity?: number;
   description?: string;
 }

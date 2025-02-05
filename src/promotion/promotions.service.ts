@@ -19,10 +19,8 @@ export class PromotionService {
   async interpret(items: IShoppingCartItem[]) {
     await this._ensurePromotionsAreBuilt();
 
-    let totalPrice = 0;
     let appliedPromotions = 0;
     const resultingCart = items; // Might have new free items due to a promotion
-
     const appliedPromotionDescriptions: string[] = [];
 
     const itemsToSync: string[] = [];
@@ -32,13 +30,10 @@ export class PromotionService {
         const { didApply, needsSync } = promotion.apply(item, resultingCart);
         if (didApply) {
           appliedPromotions++;
-          totalPrice += item.promotionPrice!;
 
           if (promotion.description) {
             appliedPromotionDescriptions.push(promotion.description);
           }
-        } else {
-          totalPrice += item.price * item.quantity;
         }
 
         if (needsSync) {
@@ -61,6 +56,12 @@ export class PromotionService {
         });
       });
     }
+
+    const totalPrice = resultingCart.reduce(
+      (sum, { promotionPrice, totalPrice }) =>
+        sum + (promotionPrice ?? totalPrice),
+      0
+    );
 
     return {
       totalPrice,
@@ -92,6 +93,14 @@ export class PromotionService {
             parametrizedFunction = baseFunction.create(
               promotion.sku,
               promotion.freeSku
+            );
+            break;
+          }
+          case PromotionTypeEnum.BUY_MORE_THAN_X_TO_GET_A_DISCOUNT_ON_ALL: {
+            parametrizedFunction = baseFunction.create(
+              promotion.sku,
+              promotion.minQuantity,
+              promotion.discount
             );
             break;
           }
@@ -137,26 +146,53 @@ export class PromotionService {
           resultingCart: IShoppingCartItem[]
         ) => {
           const isEligible = item.sku === eachOfSku;
+          let needsSync = undefined;
           if (isEligible) {
-            item.promotionPrice ??= 0;
+            const foundFreeItem = resultingCart.find(
+              (cartItem) => cartItem.sku === freeSku
+            );
 
-            // The name and original price for this added cart item are fetched all at once at the end
-            const partial: Partial<IShoppingCartItem> = {
-              sku: freeSku,
-              quantity: item.quantity,
-              promotionPrice: 0,
-            };
-            resultingCart.push(<any>partial);
+            if (foundFreeItem) {
+              if (item.quantity >= foundFreeItem.quantity) {
+                foundFreeItem.quantity = item.quantity;
+                foundFreeItem.totalPrice =
+                  foundFreeItem.quantity * foundFreeItem.price;
+                foundFreeItem.promotionPrice = 0;
+              } else {
+                const quantityToPay = foundFreeItem.quantity - item.quantity;
+                foundFreeItem.totalPrice =
+                  foundFreeItem.quantity * foundFreeItem.price;
+                foundFreeItem.promotionPrice =
+                  quantityToPay * foundFreeItem.price;
+              }
+            } else {
+              needsSync = [freeSku];
+              // The name and original price for this added cart item are fetched all at once at the end
+              const partial: Partial<IShoppingCartItem> = {
+                sku: freeSku,
+                quantity: item.quantity,
+                promotionPrice: 0,
+              };
+              resultingCart.push(<any>partial);
+            }
           }
 
-          return { didApply: isEligible, needsSync: [freeSku] };
+          return {
+            didApply: isEligible,
+            needsSync,
+          };
         };
       },
     },
     [PromotionTypeEnum.BUY_MORE_THAN_X_TO_GET_A_DISCOUNT_ON_ALL]: {
-      create(...args) {
+      create(sku: string, minQuantity: number, discount: number) {
         return (item: IShoppingCartItem) => {
-          return { didApply: false };
+          const isEligible = item.sku === sku && item.quantity >= minQuantity;
+          if (isEligible) {
+            item.promotionPrice = item.totalPrice * (1 - discount / 100);
+          }
+
+          return { didApply: isEligible };
         };
       },
     },
