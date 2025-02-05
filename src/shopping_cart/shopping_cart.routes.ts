@@ -1,13 +1,6 @@
 import { FastifyInstance } from "fastify";
-import { ShoppingCartController } from "./shopping_cart.controller.js";
-import { ShoppingCartService } from "./shopping_cart.service.js";
 import { GetShoppingCartTotal } from "./dtos/get_shopping_cart_total.dto.js";
-import { ShoppingCartRepository } from "./shopping_cart.repository.js";
-
-// TODO Refactor using typedi or fastify-decorators for specialized dependency injection handling
-const shoppingCartRepository = new ShoppingCartRepository();
-const shoppingCartService = new ShoppingCartService(shoppingCartRepository);
-const shoppingCartController = new ShoppingCartController(shoppingCartService);
+import { shoppingCartController } from "../main.js";
 
 export default function (fastify: FastifyInstance) {
   // Get total price and info associated with the shopping cart

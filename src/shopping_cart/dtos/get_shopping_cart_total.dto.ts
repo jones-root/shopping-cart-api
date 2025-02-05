@@ -22,4 +22,4 @@ export const GetShoppingCartTotal = yup.object({
     .required(),
 });
 
-export type IShopItemsDto = yup.InferType<typeof GetShoppingCartTotal>;
+export type IGetShoppingCartTotal = yup.InferType<typeof GetShoppingCartTotal>;

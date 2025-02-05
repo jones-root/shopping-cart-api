@@ -1,9 +1,9 @@
 import { sleep } from "../core/utils";
-import { shopItems } from "../mocks/items";
+import { mockedShopItems } from "../mocks/items";
 
 export class ShoppingCartRepository {
   async findItemsBySkus(skus: string[]) {
     await sleep(500);
-    return shopItems.filter(({ sku }) => skus.includes(sku));
+    return mockedShopItems.filter(({ sku }) => skus.includes(sku));
   }
 }

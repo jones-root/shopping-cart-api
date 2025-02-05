@@ -1,6 +1,6 @@
 import { IShopItem } from "../shopping_cart/shopping_cart.js";
 
-export const shopItems: IShopItem[] = [
+export const mockedShopItems: IShopItem[] = [
   {
     sku: "120P90",
     name: "Google Home",
