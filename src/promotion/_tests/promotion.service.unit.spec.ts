@@ -5,7 +5,6 @@ import {
   IShoppingCartItem,
 } from "../../shopping_cart/shopping_cart.js";
 import { ShoppingCartRepository } from "../../shopping_cart/shopping_cart.repository.js";
-import { IPromotion, PromotionTypeEnum } from "../promotion.model.js";
 import { PromotionRepository } from "../promotion.repository.js";
 import { PromotionService } from "../promotions.service.js";
 
@@ -32,22 +31,6 @@ describe("PromotionService", () => {
 
   afterEach(() => {
     jest.clearAllMocks();
-  });
-
-  describe("ensurePromotionsAreBuilt", () => {
-    it("should build all promotion functions locally", async () => {
-      const fakePromotions: IPromotion[] = [
-        { type: PromotionTypeEnum.BUY_X_FOR_Y, sku: "XXX" },
-        { type: PromotionTypeEnum.EACH_SALE_OF_X_COMES_WITH_AN_Y, sku: "YYY" },
-      ];
-
-      mockPromotionRepository.findAll.mockResolvedValue(fakePromotions);
-      await promotionsService.ensurePromotionsAreBuilt();
-
-      expect(promotionsService.allPromotions).toHaveLength(
-        fakePromotions.length
-      );
-    });
   });
 
   describe("interpret", () => {

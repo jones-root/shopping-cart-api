@@ -6,17 +6,17 @@ export enum PromotionTypeEnum {
   BUY_X_OR_MORE_TO_GET_A_DISCOUNT_ON_ALL = "BUY_X_OR_MORE_TO_GET_A_DISCOUNT_ON_ALL",
 }
 
-export interface IPromotionFunction {
-  create: (...args: any) => (
-    item: IShoppingCartItem,
-    resultingCart: IShoppingCartItem[]
-  ) => {
-    didApply: boolean;
+export type PromotionFunction = (
+  options: Omit<IPromotion, "type"> & {
+    item: IShoppingCartItem;
+    resultingCart: IShoppingCartItem[];
+  }
+) => {
+  didApply: boolean;
 
-    /** Used to sync a raw constructed items with the database */
-    needsSync?: string[];
-  };
-}
+  /** Used to sync a raw constructed items with the database */
+  needsSync?: string[];
+};
 
 export interface IPromotion {
   type: PromotionTypeEnum;
