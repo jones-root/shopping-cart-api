@@ -1,10 +1,27 @@
-import fastify from "fastify";
+import fastify, { FastifySchemaCompiler } from "fastify";
 import helmet from "@fastify/helmet";
 import cors from "@fastify/cors";
 import compress from "@fastify/compress";
 import { IS_DEV } from "./constants";
+import { AnySchema } from "yup";
 
 const corsWhitelist = process.env.CORS_WHITELIST?.split(",") ?? [];
+
+const yupValidatorCompiler: FastifySchemaCompiler<AnySchema> = ({ schema }) => {
+  return (data) => {
+    try {
+      const result = schema.validateSync(data, {
+        strict: true,
+        abortEarly: true,
+        stripUnknown: true,
+        recursive: true,
+      });
+      return { value: result };
+    } catch (error: any) {
+      return { error };
+    }
+  };
+};
 
 export function createServer() {
   const app = fastify({
@@ -22,6 +39,8 @@ export function createServer() {
       },
     },
   });
+
+  app.setValidatorCompiler(yupValidatorCompiler);
 
   app.register(compress);
   app.register(helmet);
