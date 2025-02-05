@@ -1,6 +1,6 @@
 import * as yup from "yup";
 
-export const ShopItemsDto = yup.object({
+export const GetShoppingCartTotal = yup.object({
   items: yup
     .array(
       yup.object({
@@ -21,3 +21,5 @@ export const ShopItemsDto = yup.object({
     .max(100)
     .required(),
 });
+
+export type IShopItemsDto = yup.InferType<typeof GetShoppingCartTotal>;

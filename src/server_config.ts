@@ -2,8 +2,9 @@ import fastify, { FastifySchemaCompiler } from "fastify";
 import helmet from "@fastify/helmet";
 import cors from "@fastify/cors";
 import compress from "@fastify/compress";
-import { IS_DEV } from "./constants";
 import { AnySchema } from "yup";
+
+import { IS_DEV } from "./constants.js";
 
 const corsWhitelist = process.env.CORS_WHITELIST?.split(",") ?? [];
 
@@ -53,14 +54,12 @@ export function createServer() {
         return;
       }
 
-      callback(new Error("CORS Not allowed"), false);
+      callback(new Error("Not allowed by CORS"), false);
     },
   });
 
   app.setErrorHandler(async (error, req, reply) => {
-    if (error.message === "CORS Not allowed") {
-      reply.status(403);
-    }
+    reply.status(error.statusCode ?? 500);
     reply.send(error);
   });
 
