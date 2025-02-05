@@ -17,7 +17,7 @@ export class PromotionService {
     | null = null;
 
   async interpret(items: IShoppingCartItem[]) {
-    await this._ensurePromotionsAreBuilt();
+    await this.ensurePromotionsAreBuilt();
 
     let appliedPromotions = 0;
     const resultingCart = items; // Might have new free items due to a promotion
@@ -71,7 +71,7 @@ export class PromotionService {
     };
   }
 
-  private async _ensurePromotionsAreBuilt() {
+  async ensurePromotionsAreBuilt() {
     if (!this.allPromotions) {
       this.allPromotions = [];
 
@@ -96,7 +96,7 @@ export class PromotionService {
             );
             break;
           }
-          case PromotionTypeEnum.BUY_MORE_THAN_X_TO_GET_A_DISCOUNT_ON_ALL: {
+          case PromotionTypeEnum.BUY_X_OR_MORE_TO_GET_A_DISCOUNT_ON_ALL: {
             parametrizedFunction = baseFunction.create(
               promotion.sku,
               promotion.minQuantity,
@@ -184,7 +184,7 @@ export class PromotionService {
         };
       },
     },
-    [PromotionTypeEnum.BUY_MORE_THAN_X_TO_GET_A_DISCOUNT_ON_ALL]: {
+    [PromotionTypeEnum.BUY_X_OR_MORE_TO_GET_A_DISCOUNT_ON_ALL]: {
       create(sku: string, minQuantity: number, discount: number) {
         return (item: IShoppingCartItem) => {
           const isEligible = item.sku === sku && item.quantity >= minQuantity;

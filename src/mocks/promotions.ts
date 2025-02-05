@@ -15,7 +15,7 @@ export const mockedPromotions: IPromotion[] = [
     description: "Each sale of a MacBook Pro comes with a free Raspberry Pi",
   },
   {
-    type: PromotionTypeEnum.BUY_MORE_THAN_X_TO_GET_A_DISCOUNT_ON_ALL,
+    type: PromotionTypeEnum.BUY_X_OR_MORE_TO_GET_A_DISCOUNT_ON_ALL,
     sku: "A304SD",
     minQuantity: 3,
     discount: 10,
