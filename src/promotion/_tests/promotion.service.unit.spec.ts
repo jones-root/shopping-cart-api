@@ -1,16 +1,16 @@
-import { mockedShopItems } from "../../mocks/items";
-import { mockedPromotions } from "../../mocks/promotions";
+import { mockedShopItems } from "../../mocks/items.js";
+import { mockedPromotions } from "../../mocks/promotions.js";
 import {
   IShopItem,
   IShoppingCartItem,
-} from "../../shopping_cart/shopping_cart";
-import { ShoppingCartRepository } from "../../shopping_cart/shopping_cart.repository";
-import { IPromotion, PromotionTypeEnum } from "../promotion.model";
-import { PromotionRepository } from "../promotion.repository";
-import { PromotionService } from "../promotions.service";
+} from "../../shopping_cart/shopping_cart.js";
+import { ShoppingCartRepository } from "../../shopping_cart/shopping_cart.repository.js";
+import { IPromotion, PromotionTypeEnum } from "../promotion.model.js";
+import { PromotionRepository } from "../promotion.repository.js";
+import { PromotionService } from "../promotions.service.js";
 
-jest.mock("../promotion.repository");
-jest.mock("../../shopping_cart/shopping_cart.repository");
+jest.mock("../promotion.repository.js");
+jest.mock("../../shopping_cart/shopping_cart.repository.js");
 
 describe("PromotionService", () => {
   let promotionsService: PromotionService;

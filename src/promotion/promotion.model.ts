@@ -1,4 +1,4 @@
-import { IShoppingCartItem } from "../shopping_cart/shopping_cart";
+import { IShoppingCartItem } from "../shopping_cart/shopping_cart.js";
 
 export enum PromotionTypeEnum {
   BUY_X_FOR_Y = "BUY_X_FOR_Y",

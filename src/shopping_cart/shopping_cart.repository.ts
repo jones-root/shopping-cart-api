@@ -1,5 +1,5 @@
-import { sleep } from "../core/utils";
-import { mockedShopItems } from "../mocks/items";
+import { sleep } from "../core/utils/index.js";
+import { mockedShopItems } from "../mocks/items.js";
 
 export class ShoppingCartRepository {
   async findItemsBySkus(skus: string[]) {

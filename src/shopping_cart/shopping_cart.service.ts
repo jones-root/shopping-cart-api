@@ -1,8 +1,8 @@
-import { IGetShoppingCartTotal } from "./dtos/get_shopping_cart_total.dto";
-import { ShoppingCartRepository } from "./shopping_cart.repository";
-import { IGetShoppingCartTotalResponseDto } from "./dtos/get_shopping_cart_total_response.dto";
-import { PromotionService } from "../promotion/promotions.service";
-import { IShoppingCartItem } from "./shopping_cart";
+import { IGetShoppingCartTotal } from "./dtos/get_shopping_cart_total.dto.js";
+import { ShoppingCartRepository } from "./shopping_cart.repository.js";
+import { IGetShoppingCartTotalResponseDto } from "./dtos/get_shopping_cart_total_response.dto.js";
+import { PromotionService } from "../promotion/promotions.service.js";
+import { IShoppingCartItem } from "./shopping_cart.js";
 
 export class ShoppingCartService {
   constructor(
