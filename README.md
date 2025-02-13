@@ -51,7 +51,10 @@ curl --location 'http://localhost:3001/shopping_cart/' \
 
 # TODO
 
-This is an exaustive list of features to implement into the application to make it more robust:
+This is an exhaustive list of features to implement into the application to make it more robust:
+
+### General
+- Develop a DSL (domain-specific language) to define rules about promotions dynamically. Each promotion rule could be edited and stored in the database without the need to update the codebase for its logic.
 
 ### Documentation
 
@@ -67,7 +70,7 @@ This is an exaustive list of features to implement into the application to make 
 
 ### Observability/Performance
 
-- Implement an proper in-memory or persistent database
+- Implement a proper in-memory or persistent database
 - Collect Service Level Indicators (SLIs), including:
   - API latency
   - Request counts
